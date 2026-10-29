@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with learning statistics and game achievements",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID from auth",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "description": "User role: user or admin",
+          "enum": ["user", "admin"]
+        },
+        "xp": {
+          "type": "number",
+          "description": "Total experience points gained from puzzles"
+        },
+        "coins": {
+          "type": "number",
+          "description": "Total coins collected"
+        },
+        "level": {
+          "type": "number",
+          "description": "Current player level"
+        },
+        "streak": {
+          "type": "number",
+          "description": "Consecutive days/games streak"
+        },
+        "gamesPlayed": {
+          "type": "number",
+          "description": "Number of puzzles attempted"
+        },
+        "completedPuzzles": {
+          "type": "number",
+          "description": "Number of puzzles successfully completed"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["uid", "displayName", "email", "role"]
+    },
+    "PuzzleItem": {
+      "title": "PuzzleItem",
+      "description": "Arabic learning puzzle data including text, translations, hints, and explanations",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the puzzle",
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "description": "Category such as Sekolah, Rumah, Alam, Nahwu, Logika",
+          "maxLength": 100
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Difficulty level",
+          "enum": ["pemula", "menengah", "mahir"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Game puzzle type: scramble, guess, riddle, connect",
+          "enum": ["scramble", "guess", "riddle", "connect"]
+        },
+        "arabicText": {
+          "type": "string",
+          "description": "Complete Arabic text with harakat",
+          "maxLength": 1000
+        },
+        "transliteration": {
+          "type": "string",
+          "description": "Latin phonetic transliteration",
+          "maxLength": 1000
+        },
+        "translation": {
+          "type": "string",
+          "description": "Indonesian translation",
+          "maxLength": 1000
+        },
+        "hint": {
+          "type": "string",
+          "description": "Helpful hint in Indonesian",
+          "maxLength": 500
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Grammar or vocabulary breakdown and explanation",
+          "maxLength": 2000
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "Author UID or 'system' or 'admin'",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["title", "category", "difficulty", "type", "arabicText", "translation"]
+    },
+    "GameScore": {
+      "title": "GameScore",
+      "description": "Record of a puzzle completion attempt and points",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Player UID",
+          "maxLength": 128
+        },
+        "userName": {
+          "type": "string",
+          "description": "Player name for leaderboard",
+          "maxLength": 100
+        },
+        "puzzleId": {
+          "type": "string",
+          "description": "Referenced puzzle ID",
+          "maxLength": 128
+        },
+        "puzzleType": {
+          "type": "string",
+          "description": "Puzzle type attempted",
+          "maxLength": 50
+        },
+        "score": {
+          "type": "number",
+          "description": "Points earned"
+        },
+        "passed": {
+          "type": "boolean",
+          "description": "Whether the user solved the puzzle correctly"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of the attempt"
+        }
+      },
+      "required": ["userId", "userName", "puzzleId", "score"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Admin authorization entry",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Admin email",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "description": "Role descriptor",
+          "enum": ["admin", "superadmin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Record creation timestamp"
+        }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Player profile document keyed by user UID"
+    },
+    "/puzzles/{puzzleId}": {
+      "schema": "PuzzleItem",
+      "description": "Catalog of Arabic learning puzzles"
+    },
+    "/game_scores/{scoreId}": {
+      "schema": "GameScore",
+      "description": "Leaderboard and gameplay score records"
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminRecord",
+      "description": "Whitelisted administrator accounts"
+    }
+  }
+}

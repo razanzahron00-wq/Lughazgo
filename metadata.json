@@ -1,0 +1,6 @@
+{
+  "name": "Al-Arabiya Puzzle - Game Pembelajaran Bahasa Arab",
+  "description": "Game edukasi teka-teki pembelajaran bahasa Arab interaktif dengan teka-teki susun kata, tebak kosakata, teka-teki logika, integrasi AI Gemini, dan papan skor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
